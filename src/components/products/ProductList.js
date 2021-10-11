@@ -2,24 +2,23 @@ import { useState, useEffect } from 'react'
 import ProductItem from './ProductItem';
 import classes from './ProductList.module.css';
 
-const ProductList = ({ dummyProducts }) => {
+const ProductList = ({ products }) => {
 
   const [sortedProducts, setSortedProducts] = useState()
-  console.log(dummyProducts)
   
     useEffect(() => {
-      setSortedProducts(dummyProducts?.slice(0, 8))
-    }, [dummyProducts])
+      setSortedProducts(products?.slice(0, 8))
+    }, [products])
   
   const showEight = () => {
-    setSortedProducts(dummyProducts?.slice(0, 8))
+    setSortedProducts(products?.slice(0, 8))
   }
   const showSixT = () => {
-    setSortedProducts(dummyProducts?.slice(0, 16))
+    setSortedProducts(products?.slice(0, 16))
 
   }
   const showAll = () => {
-    setSortedProducts(dummyProducts)
+    setSortedProducts(products  )
   }
 
   return (

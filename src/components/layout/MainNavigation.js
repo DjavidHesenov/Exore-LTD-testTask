@@ -10,7 +10,7 @@ const MainNavigation = () => {
             <nav className={classes.nav}>
                 <ul>
                     <li><NavLink to="/products" activeClassName={classes.active} >Products</NavLink></li>
-                    <li><NavLink to="/test" activeClassName={classes.active} >Test</NavLink></li>
+                    <li><NavLink to="/create-product" activeClassName={classes.active} >Create Product</NavLink></li>
                 </ul>
             </nav>
         </header>

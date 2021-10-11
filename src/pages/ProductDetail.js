@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 import { useParams } from 'react-router-dom'
-import LoadingSpinner from '../components/UI/LoadingSpinner'
 import HighlightedProduct from '../components/products/HighlightedProduct'
 
 
@@ -13,7 +12,10 @@ const ProductDetail = () => {
 
     const { productId } = params
 
+    useEffect(() => {
+        
     const fetchProduct = async () => {
+
         setIsLoading(true)
         const response = await fetch(`https://fakestoreapi.com/products/${productId}`)
 
@@ -25,17 +27,14 @@ const ProductDetail = () => {
 
         setProduct(data)
         setIsLoading(false)
-        console.log(data)
     }
 
-    useEffect(() => {
         fetchProduct()
-    }, [])
+    }, [productId])
 
     return (
         <>
-            {isLoading && LoadingSpinner}
-            <HighlightedProduct product={product} />
+            <HighlightedProduct product={product} isLoading={isLoading} />
         </>
     )
 }

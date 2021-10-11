@@ -5,6 +5,7 @@ import LoadingSpinner from './components/UI/LoadingSpinner';
 
 const NotFound = React.lazy(() => import('./pages/NotFound'))
 const Products = React.lazy(() => import('./pages/Products'))
+const CreateProduct = React.lazy(() => import('./pages/CreateProduct'))
 const ProductDetail = React.lazy(() => import('./pages/ProductDetail'))
 
 function App() {
@@ -23,6 +24,9 @@ function App() {
           </Route>
           <Route path="/products/:productId" >
             <ProductDetail />
+          </Route>
+          <Route path="/create-product" exact>
+            <CreateProduct />
           </Route>
           <Route path="*" >
             <NotFound />
