@@ -3,26 +3,36 @@ import Card from '../components/UI/Card'
 import ProductList from '../components/products/ProductList';
 import LoadingSpinner from '../components/UI/LoadingSpinner'
 
+import { useDispatch } from 'react-redux';
+import { productsActions } from '../store/customProducts';
+import { useSelector } from 'react-redux';
+
 const Products = () => {
     const [dummyProducts, setDummyProducts] = useState()
     const [loading, setIsLoading] = useState(false)
     const [showCreatedProducts, setShowCreatedProducts] = useState(false)
 
-    const fetchDummyProducts = async () => {
-        setIsLoading(true)
-        const response = await fetch('https://fakestoreapi.com/products')
-
-        if (!response.ok) {
-            throw new Error('Could not fetch data.')
-        }
-
-        const data = await response.json()
-
-        setDummyProducts(data)
-        setIsLoading(false)
-    }
+    const dispatch = useDispatch()
+    const customProducts = useSelector(state => state.customProducts.products)
 
     useEffect(() => {
+
+        const fetchDummyProducts = async () => {
+            setIsLoading(true)
+
+            try {
+
+                const response = await fetch('https://fakestoreapi.com/products')
+
+                const data = await response.json()
+                setDummyProducts(data)
+            } catch (err) {
+                console.log(err)
+            }
+            setIsLoading(false)
+
+        }
+
         fetchDummyProducts()
     }, [])
 
@@ -35,15 +45,19 @@ const Products = () => {
     }
 
     useEffect(() => {
-        const func = async () => {
-            const response = await fetch(`https://exoreltd-94b51-default-rtdb.firebaseio.com//products.json`);
-            const data = await response.json();
-            console.log(data)
-
-            // finishing custom products tomorrow (blueprint)
+        const fetchCustomProducts = async () => {
+            try {
+                const response = await fetch(`https://exoreltd-94b51-default-rtdb.firebaseio.com//products.json`);
+                const data = await response.json();
+                
+                dispatch(productsActions.setProducts(data))
+            } catch (err) {
+                console.log(err)
+            }
         }
-        func()
-    }, [])
+
+        fetchCustomProducts()
+    }, [dispatch])
 
     return (
         <Card>
@@ -52,6 +66,7 @@ const Products = () => {
 
                     <>
                         <button className="btn btn-m" onClick={closeCreatedProucts}>Show Fixed Products</button>
+                        <ProductList customProducts={customProducts} isCustom={true}/>
                     </>
 
 
@@ -61,7 +76,7 @@ const Products = () => {
                         {loading ? <LoadingSpinner /> :
                             <>
                                 <button className="btn btn-m" onClick={openCreatedProucts}>Show Created Products</button>
-                                <ProductList products={dummyProducts} />
+                                <ProductList products={dummyProducts} isCustom={false} />
                             </>
                         }
                     </>

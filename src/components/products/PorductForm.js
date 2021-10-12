@@ -9,7 +9,7 @@ const QuoteForm = (props) => {
   const [isEntering, setIsEntering] = useState(false)
   const [nameInput, setNameInput] = useState('')
   const [descInput, setDescInput] = useState('')
-  const [priceInput, setPriceInput] = useState(0)
+  const [priceInput, setPriceInput] = useState(1)
   const [checkBoxInput, setCheckBoxInput] = useState(false)
 
 

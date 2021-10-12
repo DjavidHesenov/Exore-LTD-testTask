@@ -5,7 +5,7 @@
 body {
   font-family: sans-serif;
   margin: 0;
-  background-color: #e7f8f8;
+  background-color: lightgray
 }
 
 .centered {
@@ -57,4 +57,35 @@ body {
 
 .btn-m {
   margin-bottom: 1rem;
+}
+
+.disabled {
+  border: none;
+  background-color: lightgray;
+  background-color: none;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+}
+
+.del {
+  margin-left: 2rem;
+  text-decoration: none;
+  background-color: rgb(216, 67, 67);
+  color: white;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgb(216, 67, 67);
+  cursor: pointer;
+}
+
+.del:hover,
+.del:active {
+  background-color: rgb(230, 73, 73);
+  color: white;
+}
+
+.modal-del {
+  display: flex;
+  flex-direction: column;
 }
