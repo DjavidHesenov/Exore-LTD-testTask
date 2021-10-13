@@ -14,7 +14,6 @@ const Products = () => {
 
     const dispatch = useDispatch()
     const customProducts = useSelector(state => state.customProducts.products)
-
     useEffect(() => {
 
         const fetchDummyProducts = async () => {

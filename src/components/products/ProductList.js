@@ -36,7 +36,6 @@ const ProductList = ({ products, isCustom, customProducts }) => {
         transformedProducts.push(productsObj);
 
         setSortedCustomProducts(transformedProducts)
-        console.log(transformedProducts)
       }
     }
   }, [customProducts])
@@ -44,7 +43,6 @@ const ProductList = ({ products, isCustom, customProducts }) => {
   return (
     <>
       {isCustom ?
-
         <ul className={classes.list}>
           {sortedCustomProducts?.map((customProduct) => (
             <CustomProductItem

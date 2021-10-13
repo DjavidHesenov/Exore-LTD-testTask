@@ -1,36 +1,59 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Prompt } from 'react-router-dom'
 
 import Card from '../UI/Card';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './PorductForm.module.css';
 
-const QuoteForm = (props) => {
+const ProductForm = (props) => {
   const [isEntering, setIsEntering] = useState(false)
   const [nameInput, setNameInput] = useState('')
   const [descInput, setDescInput] = useState('')
   const [priceInput, setPriceInput] = useState(1)
   const [checkBoxInput, setCheckBoxInput] = useState(false)
 
+  const { isEditMode } = props
+
+  const { name, desc, price, published } = props.product
+
+  useEffect(() => {
+    if (isEditMode) {
+        setNameInput(name)
+      setDescInput(desc)
+      setPriceInput(price)
+      setCheckBoxInput(published)
+    }  
+  }, [isEditMode, name, desc, price, published])
+
+  let formIsValid = false
+
+  if (nameInput === '' || descInput === '' || priceInput === 0 || priceInput === '') {
+    formIsValid = false
+  }
+  else {
+    formIsValid = true
+  }
 
   const submitFormHandler = (event) => {
     event.preventDefault();
 
     const showDate = new Date()
 
-    const month = showDate.getMonth() +1
+    const month = showDate.getMonth() + 1
 
     const date = showDate.getDate() + '/' + month + '/' + showDate.getFullYear()
 
-    // validate here
 
-    props.onAddProduct({ name: nameInput, desc: descInput, price: priceInput, published: checkBoxInput, date  })
+    if (!isEditMode) {
+      props.onAddProduct({ name: nameInput, desc: descInput, price: priceInput, published: checkBoxInput, date })
+    } else {
+      props.onEditProduct({ name: nameInput, desc: descInput, price: priceInput, published: checkBoxInput, date })
 
+    }
     setCheckBoxInput(false)
     setNameInput('')
     setDescInput('')
     setPriceInput(0)
-
   }
 
   const formFocusedHandler = () => {
@@ -72,7 +95,7 @@ const QuoteForm = (props) => {
             </label>
           </div>
           <div className={classes.actions}>
-            <button onClick={finishEnteringHandler} className='btn'>Add Quote</button>
+            <button onClick={finishEnteringHandler} className={formIsValid ? `btn centered` : 'disabled centered'} disabled={!formIsValid}>{props.isEditMode ? "Edit Quote" : "Add Quote"}</button>
           </div>
         </form>
       </Card>
@@ -80,4 +103,4 @@ const QuoteForm = (props) => {
   );
 };
 
-export default QuoteForm;
+export default ProductForm;

@@ -4,10 +4,12 @@ import Card from '../../UI/Card'
 import { useParams, Link } from 'react-router-dom'
 import LoadingSpinner from '../../UI/LoadingSpinner';
 import Modal from 'react-modal'
+import CreateProduct from '../../../pages/CreateProduct'
 
 const CustomProductEdit = () => {
 
     const [modalOpen, setModalOpen] = useState(false)
+    const [editModalOpen, setEditModalOpen] = useState(false)
     const [product, setProduct] = useState()
     const [isLoading, setIsLoading] = useState(false)
 
@@ -35,7 +37,7 @@ const CustomProductEdit = () => {
 
     useEffect(() => {
         fetchProduct()
-    }, [fetchProduct])
+    }, [fetchProduct, editModalOpen])
 
     const closeModal = () => {
         setModalOpen(false)
@@ -45,17 +47,25 @@ const CustomProductEdit = () => {
         setModalOpen(true)
     }
 
+    const closeEditModal = () => {
+        setEditModalOpen(false)
+    }
+
+    const openEditModal = () => {
+        setEditModalOpen(true)
+    }
+
     const deleteProduct = async () => {
         try {
             fetch(`https://exoreltd-94b51-default-rtdb.firebaseio.com/products/${productId}.json`, {
                 method: 'DELETE',
             })
-            setModalOpen(false);
         } catch (err) {
             console.log(err);
         }
 
         fetchProduct()
+        setModalOpen(false);
     }
 
 
@@ -63,17 +73,25 @@ const CustomProductEdit = () => {
         <Card>
             <h1 className="centered">{product?.name}</h1>
             {isLoading ? <LoadingSpinner /> :
-                <figure className={classes.quote}>
-                    <figcaption>{product?.desc}</figcaption>
-                    <p>price: {product?.price}</p>
-                    <p>date: {product?.date}</p>
-                    <p>{product?.published ? "Published" : "Not published"}</p>
-                </figure>
+                <>
+                    <figure className={classes.quote}>
+                        <figcaption>{product?.desc}</figcaption>
+                        <p>price: {product?.price}</p>
+                        <p>date: {product?.date}</p>
+                        <p>{product?.published ? "Published" : "Not published"}</p>
+                    </figure>
+                    <div className="centered">
+                        <buttton className="btn" onClick={openEditModal} >Edit</buttton>
+                        <button className="btn del" onClick={openModal} >Delete</button>
+                    </div>
+                </>
             }
-            <div className="centered">
-                <buttton className="btn">Edit</buttton>
-                <button className="btn del" onClick={openModal} >Delete</button>
-            </div>
+            <Modal ariaHideApp={false} isOpen={editModalOpen} onRequestClose={closeEditModal}>
+                <div className="centered modal-del">
+                    <CreateProduct product={product} productId={productId} closeEditModal={closeEditModal} isEditMode={true} />
+                </div>
+            </Modal>
+
             <Modal ariaHideApp={false} isOpen={modalOpen} onRequestClose={closeModal} style={{ content: { height: "25rem", width: "70rem", transform: "translate(25%, 20%)" } }} >
                 <div className="centered modal-del">
                     <h1>Are you sure about deleting?</h1>

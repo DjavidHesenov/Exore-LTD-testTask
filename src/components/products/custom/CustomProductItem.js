@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal'
 import { useDispatch } from 'react-redux';
@@ -19,28 +19,32 @@ const CustomProductItem = (props) => {
     setModalOpen(true)
   }
 
-  const fetchCustomProducts = async () => {
-    try {
-      const response = await fetch(`https://exoreltd-94b51-default-rtdb.firebaseio.com//products.json`);
-      const data = await response.json();
-      dispatch(productsActions.setProducts(data))
-    } catch (err) {
-      console.log(err)
+
+  useEffect(() => {
+    const fetchCustomProducts = async () => {
+      try {
+        const response = await fetch(`https://exoreltd-94b51-default-rtdb.firebaseio.com//products.json`);
+        const data = await response.json();
+        dispatch(productsActions.setProducts(data))
+      } catch (err) {
+        console.log(err)
+      }
     }
-  }
+
+    fetchCustomProducts()
+  }, [modalOpen, dispatch])
+
 
   const deleteProduct = async () => {
     try {
-      console.log(props.id)
       fetch(`https://exoreltd-94b51-default-rtdb.firebaseio.com/products/${props.customProduct.id}.json`, {
         method: 'DELETE',
       })
-      setModalOpen(false);
     } catch (err) {
       console.log(err);
     }
 
-    fetchCustomProducts()
+    setModalOpen(false);
   }
 
   return (
@@ -50,7 +54,7 @@ const CustomProductItem = (props) => {
           <p>{props.customProduct.name}</p>
           <p>{props.customProduct.date}</p>
           <p>{props.customProduct.desc}</p>
-          <p>{props.customProduct.published ? "Published" : "Not published" }</p>
+          <p>{props.customProduct.published ? "Published" : "Not published"}</p>
         </blockquote>
         <figcaption>{props.customProduct.price}$</figcaption>
       </figure>
