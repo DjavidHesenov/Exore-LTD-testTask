@@ -11,7 +11,7 @@ const ProductForm = (props) => {
   const [descInput, setDescInput] = useState('')
   const [priceInput, setPriceInput] = useState(1)
   const [checkBoxInput, setCheckBoxInput] = useState(false)
-w  const [name, setName] = useState()
+  const [name, setName] = useState()
   const [desc, setDesc] = useState()
   const [price, setPrice] = useState()
   const [published, setPublished] = useState()
