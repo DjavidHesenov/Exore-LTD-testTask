@@ -11,18 +11,26 @@ const ProductForm = (props) => {
   const [descInput, setDescInput] = useState('')
   const [priceInput, setPriceInput] = useState(1)
   const [checkBoxInput, setCheckBoxInput] = useState(false)
+w  const [name, setName] = useState()
+  const [desc, setDesc] = useState()
+  const [price, setPrice] = useState()
+  const [published, setPublished] = useState()
 
   const { isEditMode } = props
-
-  const { name, desc, price, published } = props.product
-
+  
   useEffect(() => {
     if (isEditMode) {
-        setNameInput(name)
+      
+      setName(props.product.name)
+      setDesc(props.product.desc)
+      setPrice(props.product.price)
+      setPublished(props.product.published)
+
+      setNameInput(name)
       setDescInput(desc)
       setPriceInput(price)
       setCheckBoxInput(published)
-    }  
+    }
   }, [isEditMode, name, desc, price, published])
 
   let formIsValid = false
